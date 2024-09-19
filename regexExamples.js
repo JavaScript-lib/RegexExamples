@@ -168,9 +168,42 @@ console.log(checkIsValidEmail("user@domain..com"));        // false (double dot 
 console.log(checkIsValidEmail("user@domain.c"));            // false (TLD too short)
 console.log(checkIsValidEmail("user@domain.com!"));         // false (invalid characters)
 console.log("-------------------------------------------------------- End checkIsValidEmail --------------------------------------------------------");
-
-
-
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+// Write a JavaScript program to check a credit card number.
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+console.log("-------------------------------------------------------- Start checkIsValidCreditCard --------------------------------------------------------");
+function checkIsValidCreditCard(cardNumber) {
+    // Remove non-digit characters
+    const sanitizedNumber = cardNumber.replace(/\D/g, '');
+    // Check if the sanitized number is empty or not a valid length
+    if (!sanitizedNumber || sanitizedNumber.length < 13 || sanitizedNumber.length > 19) {
+        return false;
+    }
+    let sum = 0;
+    let shouldDouble = false;
+    // Process the digits from right to left
+    for (let i = sanitizedNumber.length - 1; i >= 0; i--) {
+        let digit = parseInt(sanitizedNumber.charAt(i), 10);
+        if (shouldDouble) {
+            digit *= 2;
+            if (digit > 9) {
+                digit -= 9; // or digit = digit % 10 + 1
+            }
+        }
+        sum += digit;
+        shouldDouble = !shouldDouble; // Toggle the doubling
+    }
+    return sum % 10 === 0;
+}
+console.log(checkIsValidCreditCard("4532-1488-0343-6467")); // true (Visa)
+console.log(checkIsValidCreditCard("6011-1111-1111-1117")); // true (Discover)
+console.log(checkIsValidCreditCard("3782-8224-6310-005"));  // true (American Express)
+console.log(checkIsValidCreditCard("5111-1111-1111-1118")); // true (MasterCard)
+console.log(checkIsValidCreditCard("1234 5678 9012 3456")); // false (invalid)
+console.log(checkIsValidCreditCard(""));                    // false (empty)
+console.log(checkIsValidCreditCard("abcd-efgh-ijkl"));      // false (non-numeric)
+console.log(checkIsValidCreditCard("4111 1111 1111 1111")); // true (Visa)
+console.log("-------------------------------------------------------- End checkIsValidCreditCard --------------------------------------------------------");
 
 
 
